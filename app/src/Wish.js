@@ -1,8 +1,8 @@
 import React from 'react';
-import Button from 'react-bootstrap/lib/Button';
+import ListGroupItem from 'react-bootstrap/lib/ListGroupItem';
 
 function Wish(props) {
-    return <Button bsStyle="primary" onClick={() => alert(`Clicked on ${props.title}`)}>{props.title}</Button>;
+    return <ListGroupItem>{props.title}</ListGroupItem>;
 }
 
 export default Wish;

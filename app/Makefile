@@ -8,3 +8,7 @@ run: build
 .PHONY: build
 build:
 	docker build -t $(IMAGE) .
+
+.PHONY: sh
+sh: build
+	docker run --rm -it -v $(PWD)/src:/app/src -p $(PORT):3000 $(IMAGE) bash

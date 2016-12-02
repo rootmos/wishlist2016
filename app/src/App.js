@@ -1,20 +1,15 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
 import Wish from './Wish.js';
+import WishList from './WishList.js';
+import PageHeader from 'react-bootstrap/lib/PageHeader';
 
-class App extends Component {
+class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React!</h2>
-        </div>
-        <p className="App-intro">
-          <Wish title="Foo"/>
-          <Wish title="Bar"/>
-        </p>
+        <PageHeader bsClass="App-header">Wishlist 2016</PageHeader>
+        <WishList wishes={[<Wish key={1} title="Foo"/>, <Wish key={2} title="Bar"/>]}/>
       </div>
     );
   }
