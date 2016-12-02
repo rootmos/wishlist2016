@@ -1,8 +1,15 @@
 import React from 'react';
 import ListGroup from 'react-bootstrap/lib/ListGroupItem';
+import ListGroupItem from 'react-bootstrap/lib/ListGroupItem';
 
-function WishList(props) {
-    return <ListGroup>{props.wishes}</ListGroup>;
+class WishList extends React.Component {
+    render() {
+        return <ListGroup>{this.props.wishes.map(this.renderWish)}</ListGroup>;
+    }
+
+    renderWish(wish) {
+        return <ListGroupItem>{wish.title}</ListGroupItem>
+    }
 }
 
 export default WishList;

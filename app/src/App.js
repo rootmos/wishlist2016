@@ -6,10 +6,11 @@ import PageHeader from 'react-bootstrap/lib/PageHeader';
 
 class App extends React.Component {
   render() {
+    let ws = [new Wish("Foo"), new Wish("Bar")];
     return (
       <div className="App">
         <PageHeader bsClass="App-header">Wishlist 2016</PageHeader>
-        <WishList wishes={[<Wish key={1} title="Foo"/>, <Wish key={2} title="Bar"/>]}/>
+        <WishList wishes={ws}/>
       </div>
     );
   }

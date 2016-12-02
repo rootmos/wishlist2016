@@ -1,8 +1,7 @@
-import React from 'react';
-import ListGroupItem from 'react-bootstrap/lib/ListGroupItem';
-
-function Wish(props) {
-    return <ListGroupItem>{props.title}</ListGroupItem>;
+class Wish {
+    constructor(title) {
+        this.title = title
+    }
 }
 
 export default Wish;
