@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Wish from './Wish.js';
 
 class App extends Component {
   render() {
@@ -11,6 +12,8 @@ class App extends Component {
           <h2>Welcome to React!</h2>
         </div>
         <p className="App-intro">
+          <Wish title="Foo"/>
+          <Wish title="Bar"/>
         </p>
       </div>
     );
