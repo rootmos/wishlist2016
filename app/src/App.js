@@ -10,16 +10,17 @@ import uuidV4 from 'uuid/v4';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {wishes:[new Wish(uuidV4(), "Foo"), new Wish(uuidV4(), "Bar")]};
+    this.state = { wishes: new Map() }
     this.upsertWish = this.upsertWish.bind(this);
     this.add = this.add.bind(this);
+    this.edit = this.edit.bind(this);
   }
 
   render() {
     return (
       <div className="App">
         <PageHeader bsClass="App-header">Wishlist 2016</PageHeader>
-        <WishList wishes={this.state.wishes}/>
+        <WishList wishes={this.state.wishes.values()} editWish={this.edit}/>
         <WishModalEditor upsertWish={this.upsertWish} wish={this.state.wishInEditor}/>
         <Button onClick={this.add}>Add</Button>
       </div>
@@ -29,13 +30,17 @@ class App extends React.Component {
   upsertWish(wish) {
     this.setState((state) => {
       state.wishInEditor = undefined;
-      state.wishes.push(wish);
+      state.wishes.set(wish.id, wish);
       return state
     });
   }
 
+  edit(wish) {
+    this.setState({wishInEditor: wish});
+  }
+
   add() {
-    this.setState({wishInEditor: new Wish(uuidV4(), "")});
+    this.edit(new Wish(uuidV4(), ""));
   }
 }
 

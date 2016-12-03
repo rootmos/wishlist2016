@@ -40,7 +40,6 @@ class WishModalEditor extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <Modal show={this.state.active} onHide={this.close}>
         <Modal.Header closeButton>
