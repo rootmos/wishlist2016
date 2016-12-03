@@ -3,7 +3,7 @@ PORT=3000
 
 .PHONY: run
 run: build
-	docker run --rm -it -v $(PWD)/src:/app/src --net=host $(IMAGE)
+	docker run --rm -it -v $(PWD)/src:/app/src --net=host --env-file=.env $(IMAGE)
 
 .PHONY: build
 build:
