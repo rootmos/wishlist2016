@@ -12,6 +12,7 @@ class App extends React.Component {
     super(props);
     this.state = { wishes: new Map() }
     this.upsertWish = this.upsertWish.bind(this);
+    this.removeWish = this.removeWish.bind(this);
     this.add = this.add.bind(this);
     this.edit = this.edit.bind(this);
   }
@@ -21,7 +22,7 @@ class App extends React.Component {
       <div className="App">
         <PageHeader bsClass="App-header">Wishlist 2016</PageHeader>
         <WishList wishes={this.state.wishes.values()} editWish={this.edit}/>
-        <WishModalEditor upsertWish={this.upsertWish} wish={this.state.wishInEditor}/>
+        <WishModalEditor upsertWish={this.upsertWish} wish={this.state.wishInEditor} removeWish={this.removeWish}/>
         <Button onClick={this.add}>Add</Button>
       </div>
     );
@@ -31,6 +32,14 @@ class App extends React.Component {
     this.setState((state) => {
       state.wishInEditor = undefined;
       state.wishes.set(wish.id, wish);
+      return state
+    });
+  }
+
+  removeWish(wish) {
+    this.setState((state) => {
+      state.wishInEditor = undefined;
+      state.wishes.delete(wish.id);
       return state
     });
   }

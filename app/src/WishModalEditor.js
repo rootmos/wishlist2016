@@ -1,7 +1,9 @@
 import React from 'react';
 import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
+import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import WishEditor from './WishEditor.js';
+import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 function initialState(props) {
   if (props.wish) {
@@ -17,6 +19,7 @@ class WishModalEditor extends React.Component {
     super(props);
     this.close = this.close.bind(this);
     this.save = this.save.bind(this);
+    this.remove = this.remove.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.state = initialState(props)
   }
@@ -29,6 +32,11 @@ class WishModalEditor extends React.Component {
     if(this.props.upsertWish && this.state.wish)
       this.props.upsertWish(this.state.wish)
     this.close();
+  }
+
+  remove() {
+    if(this.props.removeWish)
+      this.props.removeWish(this.props.wish)
   }
 
   handleChange(wish) {
@@ -49,8 +57,11 @@ class WishModalEditor extends React.Component {
           <WishEditor wish={this.props.wish} onWishChange={this.handleChange}/>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={this.close}>Close</Button>
-          <Button bsStyle="primary" onClick={this.save}>Save</Button>
+          <ButtonToolbar>
+            <Button onClick={this.close}>Close</Button>
+            <Button><Glyphicon glyph="remove" onClick={this.remove} /></Button>
+            <Button bsStyle="primary" onClick={this.save}>Save</Button>
+          </ButtonToolbar>
         </Modal.Footer>
       </Modal>
     )
