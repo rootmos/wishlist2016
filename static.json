@@ -1,6 +1,7 @@
 {
     "root": "build/",
     "https_only": true,
+    "clean_urls": false,
     "proxies": {
         "/api": {
             "origin": "${REACT_APP_API_URL}"
