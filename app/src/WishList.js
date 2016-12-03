@@ -3,13 +3,8 @@ import ListGroup from 'react-bootstrap/lib/ListGroupItem';
 import ListGroupItem from 'react-bootstrap/lib/ListGroupItem';
 
 class WishList extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {wishes: props.wishes};
-    }
-
     render() {
-        return <ListGroup>{this.state.wishes.map(this.renderWish)}</ListGroup>;
+        return <ListGroup>{this.props.wishes.map(this.renderWish)}</ListGroup>
     }
 
     renderWish(wish) {
