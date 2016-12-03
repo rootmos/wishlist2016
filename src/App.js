@@ -16,9 +16,9 @@ class App extends React.Component {
     this.add = this.add.bind(this);
     this.edit = this.edit.bind(this);
 
-    fetch("/api/get").then(x => {
+    fetch("/api/hello/foo").then(x => {
       console.log(x);
-      x.json().then( x => console.log(x));
+      x.text().then( x => console.log(x));
     });
   }
 
