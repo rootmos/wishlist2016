@@ -15,6 +15,11 @@ class App extends React.Component {
     this.removeWish = this.removeWish.bind(this);
     this.add = this.add.bind(this);
     this.edit = this.edit.bind(this);
+
+    fetch("/api/get").then(x => {
+      console.log(x);
+      x.json().then( x => console.log(x));
+    });
   }
 
   render() {
