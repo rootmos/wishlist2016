@@ -6,7 +6,7 @@
         "/**": "index.html"
     },
     "proxies": {
-        "/api": {
+        "/api/": {
             "origin": "${REACT_APP_API_URL}"
         }
     }
