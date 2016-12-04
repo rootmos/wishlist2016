@@ -1,6 +1,6 @@
 import Auth0Lock from 'auth0-lock'
 import { browserHistory } from 'react-router';
-import isTokenValid from './JwtHelpers.js';
+import { isTokenValid, getSub } from './JwtHelpers.js';
 
 class AuthService {
   constructor(clientId, domain, redirectUrl) {
@@ -24,6 +24,10 @@ class AuthService {
 
   getToken() {
     return localStorage.getItem('id_token')
+  }
+
+  getUserId() {
+    return getSub(this.getToken())
   }
 
   isAuthenticated() {

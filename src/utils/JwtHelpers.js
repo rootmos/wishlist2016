@@ -11,8 +11,10 @@ function getExp(token){
   return date
 }
 
-function isTokenValid(token) {
-  return getExp(token).valueOf() > new Date().valueOf()
+export function getSub(token){
+  return decode(token).sub
 }
 
-export default isTokenValid;
+export function isTokenValid(token) {
+  return getExp(token).valueOf() > new Date().valueOf()
+}

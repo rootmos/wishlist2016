@@ -1,6 +1,7 @@
 class Wish {
-    constructor(id, title) {
+    constructor(id, uid, title) {
         this.id = id;
+        this.uid = uid;
         this.title = title
     }
 }

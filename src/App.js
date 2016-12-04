@@ -21,7 +21,7 @@ class App extends React.Component {
     }).then(x => {
       if (x.status === 200) {
         x.json().then(ws => {
-          let wishes = ws.map( w => [w.id, new Wish(w.id, w.title)]);
+          let wishes = ws.map( w => [w.id, new Wish(w.id, this.props.auth.getUserId(), w.title)]);
           this.setState({ wishes: new Map(wishes)})
         })
       }
@@ -79,7 +79,7 @@ class App extends React.Component {
   }
 
   add() {
-    this.edit(new Wish(uuidV4(), ""));
+    this.edit(new Wish(uuidV4(), this.props.auth.getUserId(), ""));
   }
 }
 
