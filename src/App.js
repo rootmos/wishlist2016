@@ -33,8 +33,8 @@ class App extends React.Component {
     return (
       <div className="App">
         <PageHeader bsClass="App-header">Wishlist 2016</PageHeader>
-        <WishList wishes={this.state.wishes.values()} editWish={this.edit}/>
-        <WishModalEditor upsertWish={this.upsertWish} wish={this.state.wishInEditor} removeWish={this.removeWish}/>
+        <WishList wishes={this.state.wishes.values()} editWish={this.edit} removeWish={this.removeWish}/>
+        <WishModalEditor upsertWish={this.upsertWish} wish={this.state.wishInEditor} />
         <Button onClick={this.add}>Add</Button>
       </div>
     );

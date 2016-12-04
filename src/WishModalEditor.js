@@ -18,7 +18,6 @@ class WishModalEditor extends React.Component {
     super(props);
     this.close = this.close.bind(this);
     this.save = this.save.bind(this);
-    this.remove = this.remove.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.state = initialState(props)
   }
@@ -31,11 +30,6 @@ class WishModalEditor extends React.Component {
     if(this.props.upsertWish && this.state.wish)
       this.props.upsertWish(this.state.wish)
     this.close();
-  }
-
-  remove() {
-    if(this.props.removeWish)
-      this.props.removeWish(this.props.wish)
   }
 
   handleChange(wish) {
@@ -58,7 +52,6 @@ class WishModalEditor extends React.Component {
         <Modal.Footer>
           <ButtonToolbar>
             <Button onClick={this.close}>Close</Button>
-            <Button bsStyle="warning" onClick={this.remove}>Delete</Button>
             <Button bsStyle="primary" onClick={this.save}>Save</Button>
           </ButtonToolbar>
         </Modal.Footer>
