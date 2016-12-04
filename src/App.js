@@ -16,7 +16,7 @@ class App extends React.Component {
     this.add = this.add.bind(this);
     this.edit = this.edit.bind(this);
 
-    fetch("/api/hello/foo").then(x => {
+    fetch("/api/hello/foo", {headers: { 'Authorization': `Bearer ${this.props.auth.getToken()}`}}).then(x => {
       console.log(x);
       x.text().then( x => console.log(x));
     });
