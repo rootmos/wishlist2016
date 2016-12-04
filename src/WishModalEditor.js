@@ -3,7 +3,6 @@ import Modal from 'react-bootstrap/lib/Modal';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import WishEditor from './WishEditor.js';
-import Glyphicon from 'react-bootstrap/lib/Glyphicon';
 
 function initialState(props) {
   if (props.wish) {
@@ -59,7 +58,7 @@ class WishModalEditor extends React.Component {
         <Modal.Footer>
           <ButtonToolbar>
             <Button onClick={this.close}>Close</Button>
-            <Button><Glyphicon glyph="remove" onClick={this.remove} /></Button>
+            <Button bsStyle="warning" onClick={this.remove}>Delete</Button>
             <Button bsStyle="primary" onClick={this.save}>Save</Button>
           </ButtonToolbar>
         </Modal.Footer>
