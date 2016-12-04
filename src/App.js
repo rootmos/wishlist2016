@@ -4,6 +4,7 @@ import Wish from './Wish.js';
 import WishList from './WishList.js';
 import WishModalEditor from './WishModalEditor.js';
 import PageHeader from 'react-bootstrap/lib/PageHeader';
+import ListTokenFetcher from './ListTokenFetcher.js';
 import Button from 'react-bootstrap/lib/Button';
 import uuidV4 from 'uuid/v4';
 
@@ -35,7 +36,8 @@ class App extends React.Component {
         <PageHeader bsClass="App-header">Wishlist 2016</PageHeader>
         <WishList wishes={this.state.wishes.values()} editWish={this.edit} removeWish={this.removeWish}/>
         <WishModalEditor upsertWish={this.upsertWish} wish={this.state.wishInEditor} />
-        <Button onClick={this.add}>Add</Button>
+        <Button bsStyle="primary" onClick={this.add}>Add</Button>
+        <ListTokenFetcher auth={this.props.auth} location={this.props.location}/>
       </div>
     );
   }
