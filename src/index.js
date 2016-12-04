@@ -27,6 +27,7 @@ const router =
     <Route path="/" component={Container} auth={auth}>
       <IndexRedirect to="/app" />
       <Route path="app" component={App} onEnter={authenticate} />
+      <Route path="app/:listToken" component={App} onEnter={authenticate} />
       <Route path="login" component={Login}/>
     </Route>
   </Router>

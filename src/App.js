@@ -11,13 +11,29 @@ import uuidV4 from 'uuid/v4';
 class App extends React.Component {
   constructor(props) {
     super(props);
+    if (this.props.params.listToken) {
+      this.listToken = this.props.params.listToken
+      this.isSomeoneElse = !this.props.auth.isMe(this.listToken)
+    } else {
+      this.isSomeoneElse = false
+    }
+
+    this.isMe = !this.isSomeoneElse
+
     this.state = { wishes: new Map() }
     this.upsertWish = this.upsertWish.bind(this);
     this.removeWish = this.removeWish.bind(this);
     this.add = this.add.bind(this);
     this.edit = this.edit.bind(this);
 
-    fetch("/api/wishlist", {
+    let fetchUrl = undefined;
+    if(this.isMe) {
+      fetchUrl = "/api/wishlist"
+    } else {
+      fetchUrl = "/api/wishlist/" + this.listToken
+    }
+
+    fetch(fetchUrl, {
       headers: { 'Authorization': `Bearer ${this.props.auth.getToken()}`}
     }).then(x => {
       if (x.status === 200) {
@@ -27,17 +43,28 @@ class App extends React.Component {
         })
       }
     });
-
   }
 
   render() {
+    let maybeToolbar = undefined;
+    let maybeEditor = undefined;
+    if (this.isMe) {
+      maybeToolbar = (
+        <div>
+          <Button bsStyle="primary" onClick={this.add}>Add</Button>
+          <ListTokenFetcher auth={this.props.auth} location={this.props.location}/>
+        </div>
+      )
+
+      maybeEditor = <WishModalEditor upsertWish={this.upsertWish} wish={this.state.wishInEditor} />
+    }
+
     return (
       <div className="App">
         <PageHeader bsClass="App-header">Wishlist 2016</PageHeader>
-        <WishList wishes={this.state.wishes.values()} editWish={this.edit} removeWish={this.removeWish}/>
-        <WishModalEditor upsertWish={this.upsertWish} wish={this.state.wishInEditor} />
-        <Button bsStyle="primary" onClick={this.add}>Add</Button>
-        <ListTokenFetcher auth={this.props.auth} location={this.props.location}/>
+        <WishList isMe={this.isMe} wishes={this.state.wishes.values()} editWish={this.edit} removeWish={this.removeWish}/>
+        {maybeEditor}
+        {maybeToolbar}
       </div>
     );
   }

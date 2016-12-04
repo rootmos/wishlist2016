@@ -30,6 +30,10 @@ class AuthService {
     return getSub(this.getToken())
   }
 
+  isMe(token) {
+    return this.getUserId() === getSub(token);
+  }
+
   isAuthenticated() {
     return !!this.getToken() && isTokenValid(this.getToken());
   }

@@ -11,7 +11,6 @@ class ListTokenFetcher extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     if (this.state.visible) {
       return (
         <Alert onDismiss={this.dismiss}>

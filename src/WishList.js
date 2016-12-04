@@ -14,12 +14,19 @@ class WishList extends React.Component {
   }
 
   renderWish(wish) {
-    return (
-      <Panel header={wish.title} key={wish.id} eventKey={wish.id}>
+    let maybeToolbar = undefined;
+    if (this.props.isMe) {
+      maybeToolbar = (
         <ButtonToolbar>
           <Button onClick={() => this.props.editWish(wish)}>Edit</Button>
           <Button bsStyle="warning" onClick={() => this.props.removeWish(wish)}>Delete</Button>
         </ButtonToolbar>
+      )
+    }
+
+    return (
+      <Panel header={wish.title} key={wish.id} eventKey={wish.id}>
+        {maybeToolbar}
       </Panel>)
   }
 }
