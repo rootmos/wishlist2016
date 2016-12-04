@@ -16,10 +16,17 @@ class App extends React.Component {
     this.add = this.add.bind(this);
     this.edit = this.edit.bind(this);
 
-    fetch("/api/hello/foo", {headers: { 'Authorization': `Bearer ${this.props.auth.getToken()}`}}).then(x => {
-      console.log(x);
-      x.text().then( x => console.log(x));
+    fetch("/api/wishlist", {
+      headers: { 'Authorization': `Bearer ${this.props.auth.getToken()}`}
+    }).then(x => {
+      if (x.status === 200) {
+        x.json().then(ws => {
+          let wishes = ws.map( w => [w.id, new Wish(w.id, w.title)]);
+          this.setState({ wishes: new Map(wishes)})
+        })
+      }
     });
+
   }
 
   render() {
@@ -34,18 +41,36 @@ class App extends React.Component {
   }
 
   upsertWish(wish) {
-    this.setState((state) => {
-      state.wishInEditor = undefined;
-      state.wishes.set(wish.id, wish);
-      return state
+    fetch("/api/wish/" + wish.id, {
+      headers: { 'Authorization': `Bearer ${this.props.auth.getToken()}`},
+      method: 'PUT',
+      body: JSON.stringify({
+        title: wish.title
+      })
+    }).then(x => {
+      if (x.status === 200) {
+        this.setState((state) => {
+          state.wishInEditor = undefined;
+          state.wishes.set(wish.id, wish);
+          return state
+        });
+      }
     });
   }
 
   removeWish(wish) {
-    this.setState((state) => {
-      state.wishInEditor = undefined;
-      state.wishes.delete(wish.id);
-      return state
+    fetch("/api/wish/" + wish.id, {
+      headers: { 'Authorization': `Bearer ${this.props.auth.getToken()}`},
+      method: 'DELETE'
+    }).then(x => {
+      if (x.status === 202) {
+        this.setState((state) => {
+          state.wishInEditor = undefined;
+          state.wishes.delete(wish.id);
+
+          return state
+        });
+      }
     });
   }
 
