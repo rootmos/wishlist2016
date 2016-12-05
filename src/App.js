@@ -43,6 +43,18 @@ class App extends React.Component {
         })
       }
     });
+
+    if(this.isMe) {
+      fetch("/api/user", {
+        headers: { 'Authorization': `Bearer ${this.props.auth.getToken()}`}
+      }).then(x => {
+        if (x.status === 200) {
+          x.json().then(ws => {
+            this.setState({name: ws.name});
+          });
+        }
+      });
+    }
   }
 
   render() {
@@ -59,9 +71,15 @@ class App extends React.Component {
       maybeEditor = <WishModalEditor upsertWish={this.upsertWish} wish={this.state.wishInEditor} />
     }
 
+    let maybeNameHeader = undefined;
+    if (this.state.name) {
+      maybeNameHeader = <h3>Welcome {this.state.name}, this is your wishlist!</h3>;
+    }
+
     return (
       <div className="App">
         <PageHeader bsClass="App-header">Wishlist 2016</PageHeader>
+        {maybeNameHeader}
         <WishList isMe={this.isMe} wishes={this.state.wishes.values()} editWish={this.edit} removeWish={this.removeWish}/>
         {maybeEditor}
         {maybeToolbar}
