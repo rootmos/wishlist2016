@@ -28,9 +28,9 @@ class App extends React.Component {
 
     let fetchUrl = undefined;
     if(this.isMe) {
-      fetchUrl = "/api/wishlist"
+      fetchUrl = "/api/wish"
     } else {
-      fetchUrl = "/api/wishlist/" + this.listToken
+      fetchUrl = "/api/wish?friend=" + this.listToken
     }
 
     fetch(fetchUrl, {

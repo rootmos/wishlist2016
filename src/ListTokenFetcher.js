@@ -31,7 +31,7 @@ class ListTokenFetcher extends React.Component {
     if(this.state.token) {
       this.setState({visible: true})
     } else {
-      fetch("/api/wishlist-token", {
+      fetch("/api/wish/wishlist-token", {
         headers: { 'Authorization': `Bearer ${this.props.auth.getToken()}`}
       }).then(x => {
         if (x.status === 200) {
