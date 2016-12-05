@@ -44,8 +44,8 @@ class App extends React.Component {
       }
     });
 
-    if(this.isMe) {
-      fetch("/api/user", {
+    if(!this.isMe) {
+      fetch("/api/user?friend=" + this.listToken , {
         headers: { 'Authorization': `Bearer ${this.props.auth.getToken()}`}
       }).then(x => {
         if (x.status === 200) {
@@ -73,7 +73,7 @@ class App extends React.Component {
 
     let maybeNameHeader = undefined;
     if (this.state.name) {
-      maybeNameHeader = <h3>Welcome {this.state.name}, this is your wishlist!</h3>;
+      maybeNameHeader = <h3>Wishlist for {this.state.name}</h3>;
     }
 
     return (
