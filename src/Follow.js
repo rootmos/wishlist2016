@@ -1,8 +1,9 @@
 import { getSub } from './utils/JwtHelpers.js';
 
 class Follow {
-    constructor(id, token) {
+    constructor(id, name, token) {
         this.id = id;
+        this.name = name;
         this.token = token;
         this.uid = getSub(token);
     }

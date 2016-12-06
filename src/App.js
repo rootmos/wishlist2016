@@ -9,6 +9,7 @@ import Button from 'react-bootstrap/lib/Button';
 import uuidV4 from 'uuid/v4';
 import Follow from './Follow.js';
 import FollowButton from './FollowButton.js';
+import FollowsList from './FollowsList.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -68,6 +69,7 @@ class App extends React.Component {
         {maybeEditor}
         {maybeToolbar}
         <FollowButton follows={this.state.follows.values()} friendToken={this.listToken} auth={this.props.auth} onFollowChange={this.refreshFollows}/>
+        <FollowsList follows={this.state.follows} isSomeoneElse={this.isSomeoneElse} />
       </div>
     );
   }
@@ -120,8 +122,21 @@ class App extends React.Component {
     }).then(x => {
       if (x.status === 200) {
         x.json().then(fs => {
-          let follows = fs.map( f => [f.id, new Follow(f.id, f.token)]);
-          this.setState({ follows: new Map(follows)})
+          this.setState({follows: new Map()});
+          fs.forEach( f => {
+            fetch("/api/user?friend=" + f.token, {
+              headers: { 'Authorization': `Bearer ${this.props.auth.getToken()}`}
+            }).then(x => {
+              if (x.status === 200) {
+                x.json().then(ui => {
+                  this.setState(s => {
+                    let follow = new Follow(f.id, ui.name, f.token);
+                    s.follows.set(f.id, follow)
+                  });
+                });
+              }
+            });
+          });
         })
       }
     });
