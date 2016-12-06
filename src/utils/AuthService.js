@@ -37,6 +37,10 @@ class AuthService {
   isAuthenticated() {
     return !!this.getToken() && isTokenValid(this.getToken());
   }
+
+  logout() {
+    localStorage.removeItem('id_token');
+  }
 }
 
 export default AuthService;

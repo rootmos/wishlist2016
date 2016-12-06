@@ -1,4 +1,5 @@
 import React from 'react';
+import { browserHistory } from 'react-router'
 import './App.css';
 import Wish from './Wish.js';
 import WishList from './WishList.js';
@@ -29,6 +30,7 @@ class App extends React.Component {
     this.add = this.add.bind(this);
     this.edit = this.edit.bind(this);
     this.refreshFollows = this.refreshFollows.bind(this);
+    this.logout = this.logout.bind(this);
 
   }
 
@@ -67,9 +69,10 @@ class App extends React.Component {
         {maybeNameHeader}
         <WishList isMe={this.isMe} wishes={this.state.wishes.values()} editWish={this.edit} removeWish={this.removeWish}/>
         {maybeEditor}
-        {maybeToolbar}
         <FollowButton follows={this.state.follows.values()} friendToken={this.listToken} auth={this.props.auth} onFollowChange={this.refreshFollows}/>
         <FollowsList follows={this.state.follows} isSomeoneElse={this.isSomeoneElse} />
+        {maybeToolbar}
+        <Button onClick={this.logout}>Logout</Button>
       </div>
     );
   }
@@ -179,6 +182,11 @@ class App extends React.Component {
         })
       }
     });
+  }
+
+  logout() {
+    this.props.auth.logout();
+    browserHistory.push("/login");
   }
 }
 
