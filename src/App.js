@@ -7,6 +7,8 @@ import PageHeader from 'react-bootstrap/lib/PageHeader';
 import ListTokenFetcher from './ListTokenFetcher.js';
 import Button from 'react-bootstrap/lib/Button';
 import uuidV4 from 'uuid/v4';
+import Follow from './Follow.js';
+import FollowButton from './FollowButton.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -20,46 +22,19 @@ class App extends React.Component {
 
     this.isMe = !this.isSomeoneElse
 
-    this.state = { wishes: new Map() }
+    this.state = { wishes: new Map(), follows: new Map() }
     this.upsertWish = this.upsertWish.bind(this);
     this.removeWish = this.removeWish.bind(this);
     this.add = this.add.bind(this);
     this.edit = this.edit.bind(this);
+    this.refreshFollows = this.refreshFollows.bind(this);
 
-    let fetchUrl = undefined;
-    if(this.isMe) {
-      fetchUrl = "/api/wish"
-    } else {
-      fetchUrl = "/api/wish?friend=" + this.listToken
-    }
+  }
 
-    fetch(fetchUrl, {
-      headers: { 'Authorization': `Bearer ${this.props.auth.getToken()}`}
-    }).then(x => {
-      if (x.status === 200) {
-        x.json().then(ws => {
-          let wishes = ws.map( w => [w.id, new Wish(w.id, this.props.auth.getUserId(), w.title)]);
-          this.setState({ wishes: new Map(wishes)})
-        })
-      }
-    });
-
-    let infoUrl = undefined;
-    if(this.isMe) {
-      infoUrl = "/api/user"
-    } else {
-      infoUrl = "/api/user?friend=" + this.listToken
-    }
-
-    fetch(infoUrl, {
-      headers: { 'Authorization': `Bearer ${this.props.auth.getToken()}`}
-    }).then(x => {
-      if (x.status === 200) {
-        x.json().then(ws => {
-          this.setState({name: ws.name});
-        });
-      }
-    });
+  componentDidMount() {
+    this.refreshFollows();
+    this.fetchUserInfo();
+    this.fetchWishes();
   }
 
   render() {
@@ -92,6 +67,7 @@ class App extends React.Component {
         <WishList isMe={this.isMe} wishes={this.state.wishes.values()} editWish={this.edit} removeWish={this.removeWish}/>
         {maybeEditor}
         {maybeToolbar}
+        <FollowButton follows={this.state.follows.values()} friendToken={this.listToken} auth={this.props.auth} onFollowChange={this.refreshFollows}/>
       </div>
     );
   }
@@ -136,6 +112,58 @@ class App extends React.Component {
 
   add() {
     this.edit(new Wish(uuidV4(), this.props.auth.getUserId(), ""));
+  }
+
+  refreshFollows() {
+    fetch("/api/user/follows", {
+      headers: { 'Authorization': `Bearer ${this.props.auth.getToken()}`}
+    }).then(x => {
+      if (x.status === 200) {
+        x.json().then(fs => {
+          let follows = fs.map( f => [f.id, new Follow(f.id, f.token)]);
+          this.setState({ follows: new Map(follows)})
+        })
+      }
+    });
+  }
+
+  fetchUserInfo() {
+    let infoUrl = undefined;
+    if(this.isMe) {
+      infoUrl = "/api/user"
+    } else {
+      infoUrl = "/api/user?friend=" + this.listToken
+    }
+
+    fetch(infoUrl, {
+      headers: { 'Authorization': `Bearer ${this.props.auth.getToken()}`}
+    }).then(x => {
+      if (x.status === 200) {
+        x.json().then(ws => {
+          this.setState({name: ws.name});
+        });
+      }
+    });
+  }
+
+  fetchWishes() {
+    let fetchUrl = undefined;
+    if(this.isMe) {
+      fetchUrl = "/api/wish"
+    } else {
+      fetchUrl = "/api/wish?friend=" + this.listToken
+    }
+
+    fetch(fetchUrl, {
+      headers: { 'Authorization': `Bearer ${this.props.auth.getToken()}`}
+    }).then(x => {
+      if (x.status === 200) {
+        x.json().then(ws => {
+          let wishes = ws.map(w => [w.id, new Wish(w.id, this.props.auth.getUserId(), w.title)]);
+          this.setState({ wishes: new Map(wishes)})
+        })
+      }
+    });
   }
 }
 
