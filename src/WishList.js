@@ -3,6 +3,7 @@ import Panel from 'react-bootstrap/lib/Panel';
 import Button from 'react-bootstrap/lib/Button';
 import ButtonToolbar from 'react-bootstrap/lib/ButtonToolbar';
 import PanelGroup from 'react-bootstrap/lib/PanelGroup';
+import CommentSection from './CommentSection.js';
 
 class WishList extends React.Component {
   constructor(props) {
@@ -27,6 +28,7 @@ class WishList extends React.Component {
     return (
       <Panel header={wish.title} key={wish.id} eventKey={wish.id}>
         {maybeToolbar}
+        <CommentSection wid={wish.id} token={this.props.token} auth={this.props.auth} follows={this.props.follows}/>
       </Panel>)
   }
 }

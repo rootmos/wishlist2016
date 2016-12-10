@@ -67,7 +67,7 @@ class App extends React.Component {
       <div className="App">
         <PageHeader bsClass="App-header">Wishlist 2016</PageHeader>
         {maybeNameHeader}
-        <WishList isMe={this.isMe} wishes={this.state.wishes.values()} editWish={this.edit} removeWish={this.removeWish}/>
+        <WishList isMe={this.isMe} wishes={this.state.wishes.values()} editWish={this.edit} removeWish={this.removeWish} token={this.listToken} auth={this.props.auth} follows={this.state.follows}/>
         {maybeEditor}
         <FollowButton follows={this.state.follows.values()} friendToken={this.listToken} auth={this.props.auth} onFollowChange={this.refreshFollows}/>
         <FollowsList follows={this.state.follows} isSomeoneElse={this.isSomeoneElse} />
